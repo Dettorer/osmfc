@@ -1,0 +1,5 @@
+-r requirements.txt
+anki ~= 2.1.61
+aqt[qt6] ~= 2.1.61
+mypy ~= 1.2.0
+pre-commit
