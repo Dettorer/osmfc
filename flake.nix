@@ -14,7 +14,7 @@
         pkgs = nixpkgs.legacyPackages.${system};
 
         # Python dependencies for building and using this project
-        python-deps = (ps: with ps; [ osmpythontools pyosmium ]);
+        python-deps = (ps: with ps; [ genanki osmpythontools pyosmium ]);
 
         # python-deps + extra dependencies used in the development process
         dev-python-deps = (ps:

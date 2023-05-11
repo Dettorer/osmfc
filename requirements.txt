@@ -1,2 +1,3 @@
+genanki
 osmpythontools
 pyosmium
