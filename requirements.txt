@@ -1,3 +1,4 @@
 genanki
+mapnik
 osmpythontools
 pyosmium

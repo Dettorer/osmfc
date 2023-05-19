@@ -2,16 +2,16 @@
   "nodes": {
     "nixpkgs": {
       "locked": {
-        "lastModified": 1683562494,
-        "narHash": "sha256-nRp6MoJXXiHikubmwwlXOHC7GNHaPXw7Ku1H6dm5+do=",
+        "lastModified": 1684012487,
+        "narHash": "sha256-6wHo35Pa3ocFd2tVVTWiGFQWB7IvffpWD9m/EAOaeAs=",
         "owner": "dettorer",
         "repo": "nixpkgs",
-        "rev": "2401d0932ec2d59d9dd8b28e1dbdf23b40d0417c",
+        "rev": "69afe2ac0ccf67986ad2cbc163f27ef8e548f7c7",
         "type": "github"
       },
       "original": {
         "owner": "dettorer",
-        "ref": "python-add-anki",
+        "ref": "python-fixes",
         "repo": "nixpkgs",
         "type": "github"
       }
