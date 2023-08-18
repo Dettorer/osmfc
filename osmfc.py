@@ -1,46 +1,67 @@
 #!/usr/bin/env python3
 
 import argparse
-import functools
 import genanki
 import html
-import osmium
+import logging
+import os
+import prettymaps
 
-from osmium.osm import types as otypes
 from anki_models import OSM_FEATURE_MODEL
 
 
-def _get_osm_url(o: otypes.OSMObject, object_type: str) -> str:
-    return f"https://www.openstreetmap.org/{object_type}/{o.id}"
+def _get_osm_url(otype: str, oid: int) -> str:
+    return f"https://www.openstreetmap.org/{otype}/{oid}"
 
 
-class MonumentHandler(osmium.SimpleHandler):
-    """An osmium handler that creates flashcards about monument informations"""
+# Anki needs unique deck ID, this one was generated randomly with
+# random.randrange(1 << 30, 1 << 31)
+# TODO: this should be a combined hash of the query and filtering information
+MONUMENTS_DECK_ID = 1725870212
 
-    # Anki needs unique deck ID, this one was generated randomly with
-    # random.randrange(1 << 30, 1 << 31)
-    # TODO: this should be a combined hash of the OSM data and filtering information
-    MONUMENTS_DECK_ID = 1725870212
 
-    def __init__(self) -> None:
-        super().__init__()
-        self.flashcards = genanki.Deck(self.MONUMENTS_DECK_ID, "Monuments")
+def make_anki_package(query: str) -> genanki.Deck:
+    """Fetch OSM data and create an anki package containing the notes and cards"""
 
-    def _handle_object(self, o: otypes.OSMObject, object_type: str) -> None:
-        name = o.tags.get("name")
-        if (
-            o.tags.get("historic") == "monument" or o.tags.get("heritage") == "2"
-        ) and name is not None:
-            self.flashcards.add_note(
-                genanki.Note(
-                    model=OSM_FEATURE_MODEL,
-                    fields=[name, str(o.id), html.escape(_get_osm_url(o, object_type))],
-                )
+    # Query OSM and generate a tile for the whole area
+    plot = prettymaps.plot(query)
+    if not os.path.exists("tiles"):
+        os.mkdir("tiles")
+    plot.fig.savefig("tiles/global.jpg")
+
+    # Create a note for every monument that has a name
+    buildings_gdf = plot.geodataframes["building"]
+    monuments_gdf = buildings_gdf[buildings_gdf.heritage == "2"]
+
+    deck = genanki.Deck(MONUMENTS_DECK_ID, "Monuments")
+    for (otype, oid), monument in monuments_gdf.dropna(subset=["name"]).iterrows():
+        # Create an anki note for this monument
+        anki_note_fields = [
+            monument["name"],
+            '<img src="global.jpg">',
+            html.escape(_get_osm_url(otype, oid)),
+        ]
+        deck.add_note(
+            genanki.Note(
+                model=OSM_FEATURE_MODEL,
+                fields=anki_note_fields,
             )
+        )
 
-    node = functools.partialmethod(_handle_object, object_type="node")
-    way = functools.partialmethod(_handle_object, object_type="way")
-    relation = functools.partialmethod(_handle_object, object_type="relation")
+        logging.info(f"Created a note for OSM feature {oid}")
+        logging.debug(f"The note for feature {oid} has fields {anki_note_fields}")
+
+    # Output the anki package and log the cards and notes count
+    package = genanki.Package(deck)
+    package.media_files = ["tiles/global.jpg"]
+    package.write_to_file(args.output)
+    card_count = len(deck.notes) * len(OSM_FEATURE_MODEL.templates)
+    logging.info(
+        f"Wrote a deck of {card_count} cards (in {len(deck.notes)} notes)"
+        f" to {args.output}"
+    )
+
+    return deck
 
 
 if __name__ == "__main__":
@@ -49,7 +70,7 @@ if __name__ == "__main__":
         prog="osmfc", description="A flashcard generator based on OpenStreetMap data"
     )
     parser.add_argument(
-        "osm_file",
+        "query",
         help="an OSM XML data file (typically a JOSM save file)",
     )
     parser.add_argument(
@@ -58,17 +79,21 @@ if __name__ == "__main__":
         help="the name of the produced anki deck file (default=output.apkg)",
         default="output.apkg",
     )
+    parser.add_argument(
+        "-v",
+        "--verbose",
+        help="increase the logging level, repeat the option to increase further",
+        action="count",
+        default=0,
+    )
     args = parser.parse_args()
 
-    # Extract information from the OSM data file
-    handler = MonumentHandler()
-    handler.apply_file(args.osm_file)
+    # Set the logging level
+    verbosity_to_log_level = {
+        0: logging.WARNING,
+        1: logging.INFO,
+        2: logging.DEBUG,
+    }
+    logging.basicConfig(level=verbosity_to_log_level[args.verbose])
 
-    # Write the Anki note deck and log the card/note count
-    deck = handler.flashcards
-    genanki.Package(deck).write_to_file(args.output)
-    card_count = len(deck.notes) * len(OSM_FEATURE_MODEL.templates)
-    print(
-        f"Wrote a deck of {card_count} cards (in {len(deck.notes)} notes)"
-        f" to {args.output}"
-    )
+    make_anki_package(args.query)

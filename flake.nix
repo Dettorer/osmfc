@@ -18,9 +18,7 @@
         # Python dependencies for building and using this project
         python-deps = (ps: with ps; [
           genanki
-          osmpythontools
-          pyosmium
-          python-mapnik
+          # TODO: package python-prettymaps in nixpkgs
         ]);
 
         # python-deps + extra dependencies used in the development process

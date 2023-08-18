@@ -8,9 +8,9 @@ OSM_FEATURE_MODEL = genanki.Model(
     OSM_FEATURE_MODEL_ID,
     "OpenStreetMap features",
     fields=[
-        {"name": "Front", "font": "Arial"},
-        {"name": "Back", "font": "Arial"},
-        {"name": "URL", "font": "Arial"},  # The feature's URL on openstreetmap.org
+        {"name": "Front"},
+        {"name": "Back"},
+        {"name": "URL"},  # The feature's URL on openstreetmap.org
     ],
     templates=[
         {
