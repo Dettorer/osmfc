@@ -71,7 +71,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "query",
-        help="an OSM XML data file (typically a JOSM save file)",
+        help="an OSM search query, example: \"Strasbourg, grande ile\"",
     )
     parser.add_argument(
         "-o",
