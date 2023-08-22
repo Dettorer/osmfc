@@ -38,7 +38,8 @@ def make_anki_package(query: str) -> genanki.Deck:
         # Create an anki note for this monument
         anki_note_fields = [
             monument["name"],
-            '<img src="global.jpg">',
+            'global.jpg',
+            'global.jpg',
             html.escape(_get_osm_url(otype, oid)),
         ]
         deck.add_note(
