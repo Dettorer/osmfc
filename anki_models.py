@@ -2,7 +2,7 @@ import genanki
 
 # Anki needs unique Model ID, this one was generated randomly with
 # random.randrange(1 << 30, 1 << 31)
-OSM_FEATURE_MODEL_ID = 1139402460
+OSM_FEATURE_MODEL_ID = 1231040045
 # an Anki note model based on genanki.BASIC_AND_REVERSED_CARD_MODEL
 OSM_FEATURE_MODEL = genanki.Model(
     OSM_FEATURE_MODEL_ID,
@@ -17,27 +17,25 @@ OSM_FEATURE_MODEL = genanki.Model(
         {
             "name": "Card 1",
             "qfmt": (
-                "Where is {{FeatureName}}?\n\n"
-                '<img src="{{GenericMap}}">'
+                "Where is {{FeatureName}}?<br>\n"
+                '{{GenericMap}}'
             ),
             "afmt": (
-                "{{FrontSide}}\n\n"
-                "<hr id=answer>\n\n"
-                '<img src="{{HighlightedMap}}">'
+                "<hr id=answer>\n"
+                '{{HighlightedMap}}<br>\n'
                 '(OSM url: <a href="{{URL}}">{{URL}}</a>)'
             ),
         },
         {
             "name": "Card 2",
             "qfmt": (
-                "What is this?\n\n"
-                '<img src="{{HighlightedMap}}">'
+                "What is this?<br>\n"
+                '{{HighlightedMap}}'
             ),
             "afmt": (
-                "{{FrontSide}}\n\n"
-                "<hr id=answer>\n\n"
-                '<img src="{{HighlightedMap}}">\n\n'
-                "{{FeatureName}}<br>\n\n"
+                "<hr id=answer>\n"
+                '{{HighlightedMap}}<br>\n'
+                "{{FeatureName}}<br>\n"
                 '(OSM url: <a href="{{URL}}">{{URL}}</a>)'
             ),
         },
