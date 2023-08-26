@@ -1,2 +1,3 @@
 genanki
+geopandas
 prettymaps

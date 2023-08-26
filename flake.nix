@@ -17,13 +17,21 @@
 
         # Python dependencies for building and using this project
         python-deps = (ps: with ps; [
-          genanki
+          # genanki
+          pandas # for geopandas (so that it can pull the correct libstdc++)
+          numpy
           # TODO: package python-prettymaps in nixpkgs
         ]);
 
         # python-deps + extra dependencies used in the development process
         dev-python-deps = (ps:
-          (python-deps ps) ++ (with ps; [ anki aqt black mypy ])
+          (python-deps ps) ++ (with ps; [
+            anki
+            aqt
+            black
+            jupyter
+            mypy
+          ])
         );
       in rec {
         devShells.default = pkgs.mkShell {
