@@ -30,7 +30,7 @@ TILE_PRESET = "cb-bf-f"
 
 def _isolate_in_gdf(
     otype: str, oid: int, gdfs: dict[str, gp.GeoDataFrame]
-) -> gp.GeoDataFrame:
+) -> dict[str, gp.GeoDataFrame]:
     """Modify the given gdfs to contain only the OSM feature identified by (otype, oid)
     and return the gdfs"""
     buildings = gdfs["building"]
