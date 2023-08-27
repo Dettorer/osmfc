@@ -25,6 +25,11 @@ on a map of the area (mentaly, there is no interactivity other than anki's base
 interface) and one showing the same map with the building highlighted and asking
 what its name is.
 
+| "Strasbourg grande ile" | Question | Answer |
+| ----------------------- | -------- | ------ |
+| Where is [...]? | ![Screenshot for the question "Where is Opéra du Rhin?"](./examples/strasbourg_where_question.png) | ![Screenshot for the answer to "Where is Opéra du Rhin?"](./examples/strasbourg_where_answer.png) |
+| What is this? | ![Screenshot for one "What is this?" question kind](./examples/strasbourg_what_question.png) | ![Screenshot for the answer to "What is this?" about the Cathédrale Notre-Dame](./examples/strasbourg_what_answer.png) |
+
 ## TODO
 
 - try optimizing by using the SVG format and finding the correct elements in it
@@ -35,7 +40,6 @@ what its name is.
     - otherwise rasterize the SVGs to JPG before inclusion in the deck to save
       space
 - make the code more testable
-- add example images to the README
 - allow zooming on the feature with a single click
 - build cards for some "obvious" object types like streets (warning: some are
   split into multiple ways);
