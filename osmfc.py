@@ -8,7 +8,6 @@ import html
 import logging
 import os
 import prettymaps  # type: ignore
-from matplotlib import pyplot as plt
 
 from anki_models import OSM_FEATURE_MODEL
 
