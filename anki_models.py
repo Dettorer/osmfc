@@ -1,4 +1,4 @@
-import genanki
+import genanki  # type: ignore
 
 # Anki needs unique Model ID, this one was generated randomly with
 # random.randrange(1 << 30, 1 << 31)

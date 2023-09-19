@@ -2,12 +2,12 @@
 
 import argparse
 import functools
-import genanki
-import geopandas as gp
+import genanki  # type: ignore
+import geopandas as gp  # type: ignore
 import html
 import logging
 import os
-import prettymaps
+import prettymaps  # type: ignore
 from matplotlib import pyplot as plt
 
 from anki_models import OSM_FEATURE_MODEL
