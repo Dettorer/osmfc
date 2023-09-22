@@ -1,3 +1,4 @@
 genanki
 geopandas
+lxml
 prettymaps

@@ -13,17 +13,34 @@ flashcards:
 
 ```console
 $ ./osmfc.py -v "Strasbourg grande ile"
-[...an embarassing amount of warnings...]
+[...some expected warnings from prettymaps...]
+INFO:root:Found 16 features matching the given tags
+[...some expected warnings from prettymaps...]
+INFO:root:Created a note for OSM feature W26306273: "Hôtel de Ville""
+INFO:root:Created a note for OSM feature W30922600: "Église Saint-Étienne""
+INFO:root:Created a note for OSM feature W39224041: "Aubette""
+INFO:root:Created a note for OSM feature W39540475: "Église protestante Saint-Pierre-le-Jeune""
+INFO:root:Created a note for OSM feature W39550485: "Maison Spach""
+INFO:root:Created a note for OSM feature W39605815: "Hôtel des Deux Ponts""
+INFO:root:Created a note for OSM feature W39609222: "Hôtel de la Préfecture""
+INFO:root:Created a note for OSM feature W39611079: "Hôtel de Dartein""
+INFO:root:Created a note for OSM feature W39643856: "Maison Saré""
+INFO:root:Created a note for OSM feature W39656819: "Foyer de l'Etudiant Catholique""
+INFO:root:Created a note for OSM feature W39907377: "Ancienne douane""
+INFO:root:Created a note for OSM feature W39971183: "Chambre de Commerce et d'Industrie""
+INFO:root:Created a note for OSM feature W39973703: "Église protestante Saint-Thomas""
+INFO:root:Created a note for OSM feature W287247607: "Opéra du Rhin""
+INFO:root:Created a note for OSM feature R3575: "Palais Rohan""
+INFO:root:Created a note for OSM feature R3541088: "Cathédrale Notre-Dame""
+INFO:root:attaching files: []
 INFO:root:Wrote a deck of 32 cards (in 16 notes) to output.apkg
 ```
 
-In its current proof-of-concept state, the tool only builds anki cards for
-the given area's buildings that are protected on a national level (OSM
-features with `heritage=2` that are recognized as buildings by prettymaps). For
-each of these, it create two cards: one asking the user to "place" the building
-on a map of the area (mentaly, there is no interactivity other than anki's base
-interface) and one showing the same map with the building highlighted and asking
-what its name is.
+In its current proof-of-concept state, the tool only builds anki cards for the
+given area's buildings that are protected on a national level (OSM features with
+`heritage=2`). For each of these, it create two cards: one asking the user where
+the building is on a map of the area, and one showing the same map with the
+building highlighted and asking what its name is.
 
 | "Strasbourg grande ile" | Question | Answer |
 | ----------------------- | -------- | ------ |
@@ -32,13 +49,8 @@ what its name is.
 
 ## TODO
 
-- try optimizing by using the SVG format and finding the correct elements in it
-  to directly change their fill color without calling prettymaps.plot for each
-  feature
-    - if that works, maybe even find a way to do the highlighting (and zoom)
-      with javascript, and thus using a single SVG image for the whole deck
-    - otherwise rasterize the SVGs to JPG before inclusion in the deck to save
-      space
+- try reduce space usage by rasterizing most of the map and keeping only the
+  highlighted features as SVG
 - make the code more testable
 - allow zooming on the feature with a single click
 - build cards for some "obvious" object types like streets (warning: some are
@@ -48,7 +60,9 @@ what its name is.
 - make it an anki plugin (while still supporting stand-alone use);
 - build cards according to custom user queries;
 
-Already used or potentially useful libraries:
+Libraries used:
 
-- Anki deck generation: <https://github.com/kerrickstaley/genanki>
 - OSM querying and tile rendering: <https://github.com/marceloprates/prettymaps>
+  and <https://geopandas.org>
+- SVG manipulation: <https://lxml.de/>
+- Anki deck generation: <https://github.com/kerrickstaley/genanki>
